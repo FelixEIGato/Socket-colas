@@ -52,6 +52,30 @@ class TicketControl {
         const ticket = new Ticket( this.ultimo, null );
         this.tickets.push( ticket );
 
+        this.guardarDB();
+
+        return 'Ticket ' + ticket.numero;
+    }
+
+    atenderTicket( escritorio ){
+
+        // No tenemos tickets
+        if( this.tickets.length === 0 ) {
+            return null;
+        }
+
+        const ticket = this.tickets.shift();
+        ticket.escritorio = escritorio;
+
+        this.ultimos4.unshift( ticket );
+
+        if( this.ultimos4.length > 4 ){
+            this.ultimos4.splice(-1,1);
+        }
+
+        this.guardarDB();
+
+        return ticket;
     }
 
 }
